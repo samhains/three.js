@@ -1274,7 +1274,7 @@ function WebGLRenderer( parameters = {} ) {
 	function renderObjects( renderList, scene, camera ) {
 
 		const overrideMaterial = scene.isScene === true ? scene.overrideMaterial : null;
-		console.error("KKK")
+		const overrideIsArray = Array.isArray(overrideMaterial)
 
 		for ( let i = 0, l = renderList.length; i < l; i ++ ) {
 
@@ -1282,7 +1282,14 @@ function WebGLRenderer( parameters = {} ) {
 
 			const object = renderItem.object;
 			const geometry = renderItem.geometry;
-			const material = overrideMaterial === null ? renderItem.material : overrideMaterial;
+			let material
+			if (overrideIsArray) {
+				const overrideIndex = i%overrideMaterial.length
+				material = overrideMaterial[overrideIndex]
+			} else {
+				material = overrideMaterial === null ? renderItem.material : overrideMaterial;
+			}
+
 			const group = renderItem.group;
 
 			if ( camera.isArrayCamera ) {

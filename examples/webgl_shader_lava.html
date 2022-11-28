@@ -126,10 +126,22 @@
 					fragmentShader: document.getElementById( 'fragmentShader' ).textContent
 
 				} );
+				const material2 = new THREE.ShaderMaterial( {
 
+					uniforms: uniforms,
+
+				} );
+
+				const mesh2 = new THREE.Mesh( new THREE.TorusGeometry( size, 0.3, 30, 30 ), material );
+				const mesh3 = new THREE.Mesh( new THREE.TorusGeometry( size, 0.2, 20, 20 ), material );
+							const mesh4 = new THREE.Mesh( new THREE.TorusGeometry( size, 0.2, 20, 20 ), material );
 				mesh = new THREE.Mesh( new THREE.TorusGeometry( size, 0.3, 30, 30 ), material );
 				mesh.rotation.x = 0.3;
+				mesh2.rotation.x = -0.3;
 				scene.add( mesh );
+				scene.add( mesh2 );
+				scene.add( mesh3 );
+							scene.add( mesh4 );
 
 				//
 
@@ -141,15 +153,15 @@
 
 				//
 
-				const renderModel = new RenderPass( scene, camera );
+				const renderModel = new RenderPass( scene, camera, [material2, material, material] );
 				const effectBloom = new BloomPass( 1.25 );
 				const effectFilm = new FilmPass( 0.35, 0.95, 2048, false );
 
 				composer = new EffectComposer( renderer );
 
 				composer.addPass( renderModel );
-				composer.addPass( effectBloom );
-				composer.addPass( effectFilm );
+				// composer.addPass( effectBloom );
+				// composer.addPass( effectFilm );
 
 				//
 
