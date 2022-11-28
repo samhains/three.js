@@ -1275,43 +1275,42 @@ function WebGLRenderer( parameters = {} ) {
 
 		const overrideMaterial = scene.isScene === true ? scene.overrideMaterial : null;
 
-		console.error( 'YES' );
-		for ( let i = 0, l = renderList.length; i < l; i ++ ) {
-
-			const renderItem = renderList[ i ];
-
-			const object = renderItem.object;
-			const geometry = renderItem.geometry;
-			const material = overrideMaterial === null ? renderItem.material : overrideMaterial;
-			const group = renderItem.group;
-
-			if ( camera.isArrayCamera ) {
-
-				const cameras = camera.cameras;
-
-				for ( let j = 0, jl = cameras.length; j < jl; j ++ ) {
-
-					const camera2 = cameras[ j ];
-
-					if ( object.layers.test( camera2.layers ) ) {
-
-						state.viewport( _currentViewport.copy( camera2.viewport ) );
-
-						currentRenderState.setupLightsView( camera2 );
-
-						renderObject( object, scene, camera2, geometry, material, group );
-
-					}
-
-				}
-
-			} else {
-
-				renderObject( object, scene, camera, geometry, material, group );
-
-			}
-
-		}
+		// for ( let i = 0, l = renderList.length; i < l; i ++ ) {
+		//
+		// 	const renderItem = renderList[ i ];
+		//
+		// 	const object = renderItem.object;
+		// 	const geometry = renderItem.geometry;
+		// 	const material = overrideMaterial === null ? renderItem.material : overrideMaterial;
+		// 	const group = renderItem.group;
+		//
+		// 	if ( camera.isArrayCamera ) {
+		//
+		// 		const cameras = camera.cameras;
+		//
+		// 		for ( let j = 0, jl = cameras.length; j < jl; j ++ ) {
+		//
+		// 			const camera2 = cameras[ j ];
+		//
+		// 			if ( object.layers.test( camera2.layers ) ) {
+		//
+		// 				state.viewport( _currentViewport.copy( camera2.viewport ) );
+		//
+		// 				currentRenderState.setupLightsView( camera2 );
+		//
+		// 				renderObject( object, scene, camera2, geometry, material, group );
+		//
+		// 			}
+		//
+		// 		}
+		//
+		// 	} else {
+		//
+		// 		renderObject( object, scene, camera, geometry, material, group );
+		//
+		// 	}
+		//
+		// }
 
 	}
 
