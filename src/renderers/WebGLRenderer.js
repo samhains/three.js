@@ -1274,7 +1274,7 @@ function WebGLRenderer( parameters = {} ) {
 	function renderObjects( renderList, scene, camera ) {
 
 		const overrideMaterial = scene.isScene === true ? scene.overrideMaterial : null;
-		console.error("TEST")
+		console.error("KKK")
 
 		for ( let i = 0, l = renderList.length; i < l; i ++ ) {
 
