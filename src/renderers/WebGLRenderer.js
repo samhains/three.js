@@ -1273,6 +1273,7 @@ function WebGLRenderer( parameters = {} ) {
 
 	function renderObjects( renderList, scene, camera ) {
 
+		console.log(renderList)
 		const overrideMaterial = scene.isScene === true ? scene.overrideMaterial : null;
 		const overrideIsArray = Array.isArray(overrideMaterial)
 
