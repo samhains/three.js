@@ -74,6 +74,7 @@ function WebGLRenderer( parameters = {} ) {
 
 	const renderListStack = [];
 	const renderStateStack = [];
+	const overrideMaterialObj = {};
 
 	// public properties
 
@@ -1273,7 +1274,6 @@ function WebGLRenderer( parameters = {} ) {
 
 	function renderObjects( renderList, scene, camera ) {
 
-		console.log(renderList)
 		const overrideMaterial = scene.isScene === true ? scene.overrideMaterial : null;
 		const overrideIsArray = Array.isArray(overrideMaterial)
 
@@ -1285,8 +1285,11 @@ function WebGLRenderer( parameters = {} ) {
 			const geometry = renderItem.geometry;
 			let material
 			if (overrideIsArray) {
-				const overrideIndex = i%overrideMaterial.length
-				material = overrideMaterial[overrideIndex]
+				if (!(renderItem.id in overrideMaterialObj)) {
+					const overrideIndex = i%overrideMaterial.length
+					overrideMaterialObj[renderItem.id] = overrideIndex
+				}
+				material = overrideMaterial[overrideMaterialObj[renderItem.id]]
 			} else {
 				material = overrideMaterial === null ? renderItem.material : overrideMaterial;
 			}

@@ -17323,7 +17323,8 @@
 		// We track this so that the nested render call gets its list and state isolated from the parent render call.
 
 		const renderListStack = [];
-		const renderStateStack = []; // public properties
+		const renderStateStack = [];
+		const overrideMaterialObj = {}; // public properties
 
 		this.domElement = _canvas; // Debug configuration container
 
@@ -18152,7 +18153,6 @@
 		}
 
 		function renderObjects(renderList, scene, camera) {
-			console.log(renderList);
 			const overrideMaterial = scene.isScene === true ? scene.overrideMaterial : null;
 			const overrideIsArray = Array.isArray(overrideMaterial);
 
@@ -18163,8 +18163,12 @@
 				let material;
 
 				if (overrideIsArray) {
-					const overrideIndex = i % overrideMaterial.length;
-					material = overrideMaterial[overrideIndex];
+					if (!(renderItem.id in overrideMaterialObj)) {
+						const overrideIndex = i % overrideMaterial.length;
+						overrideMaterialObj[renderItem.id] = overrideIndex;
+					}
+
+					material = overrideMaterial[overrideMaterialObj[renderItem.id]];
 				} else {
 					material = overrideMaterial === null ? renderItem.material : overrideMaterial;
 				}
@@ -36288,3 +36292,4 @@
 	Object.defineProperty(exports, '__esModule', { value: true });
 
 })));
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoidGhyZWUuanMiLCJzb3VyY2VzIjpbXSwic291cmNlc0NvbnRlbnQiOltdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiIn0=
