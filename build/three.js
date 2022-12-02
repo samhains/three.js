@@ -18154,7 +18154,7 @@
 
 		function renderObjects(renderList, scene, camera) {
 			const overrideMaterial = scene.isScene === true ? scene.overrideMaterial : null;
-			const isCustomOverride = overrideMaterial !== null ? overrideMaterial.hasOwnProperty("materials") : false;
+			const isCustomOverride = overrideMaterial.hasOwnProperty("materials");
 
 			for (let i = 0, l = renderList.length; i < l; i++) {
 				const renderItem = renderList[i];
