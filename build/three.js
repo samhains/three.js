@@ -18154,7 +18154,7 @@
 
 		function renderObjects(renderList, scene, camera) {
 			const overrideMaterial = scene.isScene === true ? scene.overrideMaterial : null;
-			const isCustomOverride = overrideMaterial.hasOwnProperty("materials");
+			const overrideIsArray = Array.isArray(overrideMaterial);
 
 			for (let i = 0, l = renderList.length; i < l; i++) {
 				const renderItem = renderList[i];
@@ -18162,27 +18162,13 @@
 				const geometry = renderItem.geometry;
 				let material;
 
-				if (isCustomOverride) {
-					const overrideId = overrideMaterial.id;
-					const overrideMaterialsArray = overrideMaterial.materials;
-
-					if (!overrideMaterialObj.hasOwnProperty(overrideId)) {
-						overrideMaterialObj[overrideId] = {
-							index: {},
-							materials: overrideMaterialsArray
-						};
+				if (overrideIsArray) {
+					if (!(renderItem.id in overrideMaterialObj)) {
+						const overrideIndex = i % overrideMaterial.length;
+						overrideMaterialObj[renderItem.id] = overrideIndex;
 					}
 
-					const overrideObj = overrideMaterialObj[overrideId];
-
-					if (!(renderItem.id in overrideObj.index)) {
-						const overrideIndex = i % overrideMaterialsArray.length;
-						overrideObj.index[renderItem.id] = overrideIndex;
-					} // material = overrideMaterialObj[overrideId].materials[renderItem.id]
-
-
-					const materialIndex = overrideObj.index[renderItem.id];
-					material = overrideObj.materials[materialIndex];
+					material = overrideMaterial[overrideMaterialObj[renderItem.id]];
 				} else {
 					material = overrideMaterial === null ? renderItem.material : overrideMaterial;
 				}
@@ -36306,4 +36292,3 @@
 	Object.defineProperty(exports, '__esModule', { value: true });
 
 })));
-//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoidGhyZWUuanMiLCJzb3VyY2VzIjpbXSwic291cmNlc0NvbnRlbnQiOltdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiIn0=

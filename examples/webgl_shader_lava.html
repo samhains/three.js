@@ -145,8 +145,7 @@
 
 				//
 
-				const renderModel = new RenderPass( scene, camera, {id: "2", materials: [material4]} );
-				const renderModel2 = new RenderPass( scene, camera, {id: "1", materials: [material2]} );
+				const renderModel = new RenderPass( scene, camera, [material, material2, material3, material4] );
 				const effectBloom = new BloomPass( 1.25 );
 				const effectFilm = new FilmPass( 0.35, 0.95, 2048, false );
 
