@@ -1275,7 +1275,7 @@ function WebGLRenderer( parameters = {} ) {
 	function renderObjects( renderList, scene, camera ) {
 
 		const overrideMaterial = scene.isScene === true ? scene.overrideMaterial : null;
-		const overrideIsArray = Array.isArray(overrideMaterial)
+		const isCustomOverride = overrideMaterial.hasOwnProperty("materials")
 
 		for ( let i = 0, l = renderList.length; i < l; i ++ ) {
 
@@ -1284,12 +1284,21 @@ function WebGLRenderer( parameters = {} ) {
 			const object = renderItem.object;
 			const geometry = renderItem.geometry;
 			let material
-			if (overrideIsArray) {
-				if (!(renderItem.id in overrideMaterialObj)) {
-					const overrideIndex = i%overrideMaterial.length
-					overrideMaterialObj[renderItem.id] = overrideIndex
+			if (isCustomOverride) {
+				const overrideId = overrideMaterial.id
+				const overrideMaterialsArray = overrideMaterial.materials
+				if (!overrideMaterialObj.hasOwnProperty(overrideId)) {
+					overrideMaterialObj[overrideId] = {index: {}, materials: overrideMaterialsArray }
 				}
-				material = overrideMaterial[overrideMaterialObj[renderItem.id]]
+				const overrideObj = overrideMaterialObj[overrideId]
+				if (!(renderItem.id in overrideObj.index)) {
+					const overrideIndex = i%overrideMaterialsArray.length
+					overrideObj.index[renderItem.id] = overrideIndex
+				}
+				// material = overrideMaterialObj[overrideId].materials[renderItem.id]
+				const materialIndex = overrideObj.index[renderItem.id]
+
+				material = overrideObj.materials[materialIndex]
 			} else {
 				material = overrideMaterial === null ? renderItem.material : overrideMaterial;
 			}
